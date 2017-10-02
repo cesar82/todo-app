@@ -24,9 +24,9 @@ class Header extends Component {
 
   render() {
     if(this.state.showAddToDoModal) {
-      alert('ces');
+      //alert('ces');
     }
-    
+
     return (
       <GHeader colorIndex='light-2' pad={{ vertical: 'small', horizontal: 'medium' }}>
         <Title>
