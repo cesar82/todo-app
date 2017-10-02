@@ -8,6 +8,7 @@ This project was bootstrapped with [Grommet](https://github.com/grommet/grommet)
 Please ensure that the right versions of Node.js and NPM are used.
 
 To install all dependencies:
+
 `$ npm install`
 
 To start the dev server:
