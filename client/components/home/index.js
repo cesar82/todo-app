@@ -1,12 +1,12 @@
-import React from 'react';
-import GArticle from 'grommet/components/Article';
+import React, { Component } from 'react';
+import GBox from 'grommet/components/Box';
 
-class Home extends React.Component {
+class Home extends Component {
   render() {
     return (
-      <GArticle primary={true}>
-        <h1>Hi! home page</h1>
-      </GArticle>
+      <GBox pad={{ vertical: 'small', horizontal: 'small' }}>
+        <h1>Home</h1>
+      </GBox>
     );
   }
 }

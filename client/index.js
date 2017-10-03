@@ -1,17 +1,19 @@
 import React from 'react';
+import thunk from 'redux-thunk';
 import { render } from 'react-dom';
+import { Provider } from  'react-redux';
+import { createStore, applyMiddleware } from 'redux';
 
 import './scss/index.scss';
-import { HashRouter as Router, Route } from 'react-router-dom';
 
 import Main from './components/main/index';
-import Home from './components/home/index';
-import Tasks from './components/tasks/index';
 
-render(( <Router>
-    <div>
-      <Route path="/" component={Main} />
-      <Route exact path="/" component={Home} />
-      <Route path="/tasks" component={Tasks} />
-    </div>
-  </Router> ), document.getElementById('app'));
+const store = createStore(
+  (state = {}) => state,
+  applyMiddleware(thunk)
+);
+
+render(
+  <Provider store={store}>
+    <Main />
+  </Provider>, document.getElementById('app'));

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import Moment from 'moment';
 
 import GHeader from 'grommet/components/Header'
 import Title from 'grommet/components/Title'
@@ -8,56 +9,56 @@ import Menu from 'grommet/components/Menu'
 import Anchor from 'grommet/components/Anchor'
 import Button from 'grommet/components/Button'
 import TaskIcon from 'grommet/components/icons/base/task'
+import StatusIcon from 'grommet/components/icons/base/edit'
+import Heading from 'grommet/components/Heading'
+import Label from 'grommet/components/Label';
 
 class Header extends Component {
-  constructor() {
-    super();
-      this._onRequestForAddTask = this._onRequestForAddTask.bind(this);
-      this.state = {
-        showAddToDoModal: false
-      }
-  }
-
-  _onRequestForAddTask() {
-    this.setState({showAddToDoModal: true});
-  }
-
   render() {
-    if(this.state.showAddToDoModal) {
-      //alert('ces');
-    }
+    let items = this.props.todoList().map((task, index) => {
+      return (
+        <Anchor key={index}
+          href='#'>
+          <Heading tag='h5'>
+            {Moment(task.dueDate).format('MM/DD/YYYY')}
+          </Heading>
+
+          <Label truncate={true}
+            size='small' maxwidth='10'>
+            {task.description}
+          </Label>
+        </Anchor>
+      );
+    });
 
     return (
-      <GHeader colorIndex='light-2' pad={{ vertical: 'small', horizontal: 'medium' }}>
+      <GHeader colorIndex='light-2' pad={{ vertical: 'small', horizontal: 'small' }}>
         <Title>
           Simple ToDo App
         </Title>
-        <Menu responsive={true}
-          inline={true}
-          direction='row'>
-          <Link to="/">Home</Link>
-          <Link to="/tasks">Tasks</Link>
-        </Menu>
         <Box flex={true}
           justify='end'
           direction='row'
-          responsive={false}>
-          <Menu icon={<TaskIcon />} dropAlign={{"right": "right"}}>
-            <Anchor href='#' className='active'>
-              todo 1
-            </Anchor>
-            <Anchor href='#'>
-             todo 2
-            </Anchor>
+          responsive={false} />
+        <Box flex={true}
+          justify='end'
+          direction='row'
+          responsive={false} >
+          <Menu id="todoMenu" icon={<TaskIcon />} dropAlign={{"right": "right"}} size='small'>
+            {items}
             <Box justify='end' direction='row' responsive={false}>
-              <Button label='Add' primary={true} onClick={this._onRequestForAddTask}/>
-              <Button label='View List' primary={true} href='#/tasks'/>
+              <Button label='Add' primary={true} onClick={this.props.onOpenToDoFrom}/>
             </Box>
           </Menu>
         </Box>
       </GHeader>
     );
   }
+}
+
+Header.propTypes = {
+  onOpenToDoFrom: PropTypes.func.isRequired,
+  todoList: PropTypes.func.isRequired
 }
 
 export default Header;
