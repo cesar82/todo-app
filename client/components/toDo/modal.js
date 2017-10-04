@@ -49,8 +49,8 @@ class Modal extends Component {
 
   }
 
-  _onDateChange(e) {
-    this.state.dueDate = e.target.value;
+  _onDateChange(date) {
+    this.setState({dueDate: Moment(date)});
   }
 
   render() {
