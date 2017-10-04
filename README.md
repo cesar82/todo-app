@@ -14,3 +14,7 @@ To install all dependencies:
 To start the dev server:
 
 `$ npm run server`
+
+Notes:
+- Disabled property for Grommet Button is not working yet, so it includes a hack to disable it.
+- If text is too long the dropdown menu shows a native tooltip with full text.
