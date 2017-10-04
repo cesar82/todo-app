@@ -1,1 +1,19 @@
 @import '~grommet/scss/hpinc/index';
+
+.toDoMenu__drop {
+  width: 250px !important;
+}
+
+.dueState {
+    background-color: #ff6961 !important;
+  }
+
+.todoItem{
+  .grommetux-check-box__control {
+    margin-right: 0px;
+  }
+
+  .grommetux-check-box__label {
+    display: none;
+  }
+}

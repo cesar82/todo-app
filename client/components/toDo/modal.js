@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import uniqueId from 'lodash/uniqueId';
+import Uuid from 'uuid';
 import Moment from 'moment';
+import classnames from 'classnames';
+import isEmpty from 'lodash/isEmpty';
 
+import Box from 'grommet/components/Box';
 import Layer from 'grommet/components/Layer';
 import Form from 'grommet/components/Form';
 import FormFields from 'grommet/components/FormFields';
@@ -24,7 +27,7 @@ class Modal extends Component {
 
     this.state = {
       description: undefined,
-      dueDate: Moment()
+      dueDate: Moment().add(1, 'hours')
     }
   }
 
@@ -32,7 +35,7 @@ class Modal extends Component {
     e.preventDefault();
     if (this.state.description) {
       let task = {
-        id: uniqueId(),
+        id: Uuid(),
         description: this.state.description,
         dueDate:  this.state.dueDate,
         createdAt: new Date()
@@ -42,7 +45,7 @@ class Modal extends Component {
   }
 
   _onTextChange(e) {
-    this.state.description = e.target.value;
+    this.setState({ description: e.target.value });
 
   }
 
@@ -51,12 +54,15 @@ class Modal extends Component {
   }
 
   render() {
+    const disabledAdd = isEmpty(this.state.description);
+    const handler = disabledAdd ? undefined : this._onSubmit;
+
     return (
       <Layer closer={true} onClose={this.props.onClose}>
         <header>
           <h3>Add To Do task</h3>
-          <Form pad={{ vertical: 'medium', horizontal: 'small' }}>
-            <FormFields pad={{ vertical: 'medium', horizontal: 'none' }}>
+          <Form pad='medium'>
+            <FormFields pad='medium'>
               <fieldset>
                 <FormField>
                   <TextInput id='description'
@@ -69,15 +75,24 @@ class Modal extends Component {
                 <FormField>
                   <DateTime id='id'
                     name='name'
-                    format='M/D/YYYY'
                     value={this.state.dueDate}
                     onChange={this._onDateChange}/>
                 </FormField>
               </fieldset>
             </FormFields>
-            <Footer pad={{"vertical": "medium"}}>
-              <Button primary={true} label='Add' onClick={this._onSubmit} />
-              <Button label='Cancel' onClick={this.props.onClose} />
+            <Footer pad={{"vertical": "small"}} align='center'>
+              <Box>
+                <Button primary={true}
+                  label='Add'
+                  className={classnames({'grommetux-anchor--disabled': disabledAdd})}
+                  onClick={handler}/>
+
+              </Box>
+              <Box pad={{"horizontal": "small"}}>
+                <Button label='Cancel'
+                  onClick={this.props.onClose} />
+              </Box>
+
             </Footer>
           </Form>
         </header>

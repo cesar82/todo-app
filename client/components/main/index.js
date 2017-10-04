@@ -8,8 +8,7 @@ import Header from '../header'
 import Home from '../home'
 import ToDoModal from '../toDo/modal'
 
-import { addToDoTask, getToDoList } from '../../actions/toDo';
-
+import { addToDoTask, getToDoList, removeToDoTask } from '../../actions/toDo';
 
 class Main extends Component {
   constructor() {
@@ -17,6 +16,8 @@ class Main extends Component {
       this._onOpenToDoModal = this._onOpenToDoModal.bind(this);
       this._onCloseToDoModal = this._onCloseToDoModal.bind(this);
       this._addToDoTask = this._addToDoTask.bind(this);
+      this._removeToDoTask = this._removeToDoTask.bind(this);
+
       this.state = {
         showAddToDoModal: false
       }
@@ -35,8 +36,13 @@ class Main extends Component {
     this._onCloseToDoModal();
   }
 
+  _removeToDoTask(e) {
+    this.props.removeToDoTask(e.target.id);
+    this._onCloseToDoModal();
+  }
+
   render() {
-    const { getToDoList } = this.props;
+    const { getToDoList, removeToDoTask } = this.props;
     let toDoModalForm;
     if(this.state.showAddToDoModal) {
       toDoModalForm = (
@@ -48,8 +54,9 @@ class Main extends Component {
 
     return (
       <App>
-        <Header todoList={getToDoList}
-          onOpenToDoFrom={this._onOpenToDoModal} />
+        <Header toDoList={getToDoList}
+          onOpenToDoFrom={this._onOpenToDoModal}
+          removeToDoTask={this._removeToDoTask} />
         <Home />
         {toDoModalForm}
       </App>
@@ -59,7 +66,8 @@ class Main extends Component {
 
 Main.propTypes = {
   addToDoTask: PropTypes.func.isRequired,
-  getToDoList: PropTypes.func.isRequired
+  getToDoList: PropTypes.func.isRequired,
+  removeToDoTask: PropTypes.func.isRequired
 }
 
-export default connect((state) => { return {} }, { addToDoTask, getToDoList })(Main);
+export default connect((state) => { return {} }, { addToDoTask, getToDoList, removeToDoTask })(Main);
